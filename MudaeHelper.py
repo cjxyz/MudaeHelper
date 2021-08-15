@@ -7,13 +7,9 @@ from decouple import config
 tokenbot = config('tokenbot')
 bot = discum.Client(token=str(tokenbot), log={"console":False, "file":False})
 mudae = 432610292342587392
-
-descriptionFinder = re.compile("Reaccione con cualquier emoji para reclamar")
-
 channel = config('channel')
 
-#Send Message
-bot.sendMessage(channel, "Hello")
+descriptionFinder = re.compile("Reaccione con cualquier emoji para reclamar")
 
 @bot.gateway.command
 def onMessage(resp):
@@ -24,6 +20,10 @@ def onMessage(resp):
 
         if int(channelid) == int(channel):
             if int(aId) == mudae:
+
+                if m['embeds'] == []:
+                    return
+
                 roll = m['embeds'][0]
                 name = roll['author']['name']
                 description = roll["description"]
@@ -34,9 +34,9 @@ def onMessage(resp):
                     try:
                         valor = str(df.loc[name, 'Value'])
                         print(name+": "+valor)
-                        bot.sendMessage(channel, name+": "+valor)
+                        # bot.sendMessage(channel, name+": "+valor)
                     except:
-                        print(name+": Pipipi")
-                        bot.sendMessage(channel, name+": F")
+                        print(name+": F")
+                        # bot.sendMessage(channel, name+": F")
 
 bot.gateway.run(auto_reconnect=True)

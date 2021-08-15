@@ -9,12 +9,11 @@ bot = discum.Client(token=tokenbot, log={"console":False, "file":False})
 mudae = 432610292342587392
 channel = config('channel')
 
-#Send Message
-bot.sendMessage(channel, "Hello")
+bot.sendMessage(channel, "Starting Top")
 
 nameFinder = re.compile(" \*\*(.+?)\*\* (?!ka)")
 kakeraFinder = re.compile("\*\*??([0-9]+)")
-PageFinder = re.compile("[0-9]+")
+pageFinder = re.compile("[0-9]+")
 
 def parseValues(resp):
     m = resp.parsed.auto()
@@ -24,7 +23,6 @@ def parseValues(resp):
 
     if int(channelid) == int(channel):
         if int(aId) == mudae:
-            
             embed = m['embeds'][0]
             names, kakeras = getValue(embed)
             
@@ -32,8 +30,8 @@ def parseValues(resp):
             df = pd.DataFrame(tuple, columns=['Name','Value'])
 
             pages = embed['footer']['text']
-            CurPage = PageFinder.findall(pages)[0]
-            LastPage = PageFinder.findall(pages)[1]
+            CurPage = pageFinder.findall(pages)[0]
+            LastPage = pageFinder.findall(pages)[1]
 
             print(CurPage+" / "+LastPage)
 
